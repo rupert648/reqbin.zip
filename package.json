@@ -17,6 +17,8 @@
     "@trpc/next": "^10.18.0",
     "@trpc/react-query": "^10.18.0",
     "@trpc/server": "^10.18.0",
+    "curlconverter": "^4.7.1",
+    "formik": "^2.4.2",
     "next": "^13.4.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
