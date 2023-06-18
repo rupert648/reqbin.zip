@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useEffect } from "react";
+import { Title } from "./components/Title";
 
 export default function CurlRequestPage() {
   const utils = api.useContext();
@@ -15,6 +17,22 @@ export default function CurlRequestPage() {
     },
   });
 
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "s" && e.metaKey) {
+        e.preventDefault();
+        document.getElementById("saveCurlRequest")?.click();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    // Don't forget to clean up
+    return function cleanup() {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   if (typeof curlRequestId !== "string") {
     // TODO: 404 page
     return <p>404</p>;
@@ -27,10 +45,7 @@ export default function CurlRequestPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-gradient-to-b ">
-      <h1 className="rotate-[270deg] text-3xl font-extrabold">
-        ReqBin<span className="text-orange-500">.zip</span>
-      </h1>
-
+      <Title />
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -49,6 +64,41 @@ export default function CurlRequestPage() {
       >
         {({ values }) => (
           <Form className="w-10/12">
+            <div className="flex">
+              <p className="mx-5 -mb-2 text-xs font-extralight tracking-widest">
+                Built by{" "}
+                <a
+                  href="https://www.github.com/rupert648"
+                  target="_blank"
+                  className="underline"
+                >
+                  Rupert Carr
+                </a>
+              </p>
+              <p className="m-auto mr-0 text-xs font-extralight tracking-widest">
+                <a
+                  href="https://www.twitter.com/rupert648"
+                  target="_blank"
+                  className="hover:underline"
+                >
+                  #️⃣ twitter
+                </a>{" "}
+                <a
+                  href="https://www.buymeacoffee.com/rupertcarr"
+                  target="_blank"
+                  className="hover:underline"
+                >
+                  ☕ buy me a coffee
+                </a>
+                <a
+                  href="https://www.github.com/rupert648"
+                  target="_blank"
+                  className="ml-1 hover:underline"
+                >
+                  🧑‍💻 github
+                </a>
+              </p>
+            </div>
             <Field
               placeholder="loading..."
               id="curlRequest"
@@ -59,7 +109,7 @@ export default function CurlRequestPage() {
             <ErrorMessage name="curlRequest" />
             <div className="flex items-center">
               <button
-                className="ml-3 flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-black hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+                className="m-4 flex max-w-xs flex-col gap-4 rounded-lg border border-gray-300 p-4 text-black hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={
                   values?.curlRequest === data?.curlRequest || !data?.isEditable
                 }
@@ -70,8 +120,11 @@ export default function CurlRequestPage() {
                     ? "Not editable"
                     : ""
                 }
+                id="saveCurlRequest"
               >
-                save
+                <h3 className="text-1xl font-bold">
+                  Save <span className="text-orange-400">(⌘S)</span>
+                </h3>
               </button>
             </div>
           </Form>

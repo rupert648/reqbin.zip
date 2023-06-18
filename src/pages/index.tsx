@@ -5,6 +5,7 @@ import Head from "next/head";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 
 import { api } from "~/utils/api";
+import { Title } from "./components/Title";
 
 const Home: NextPage = () => {
   const [showOptionsModal, setShowOptionsModal] = useState(false);
@@ -62,9 +63,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen items-center justify-center bg-gradient-to-b ">
-        <h1 className="rotate-[270deg] text-3xl font-extrabold">
-          ReqBin<span className="text-orange-500">.zip</span>
-        </h1>
+        <Title />
         <Formik
           initialValues={{
             curlRequest: "",
@@ -79,6 +78,41 @@ const Home: NextPage = () => {
           }}
         >
           <Form className="w-10/12">
+            <div className="flex">
+              <p className="mx-5 -mb-2 text-xs font-extralight tracking-widest">
+                Built by{" "}
+                <a
+                  href="https://www.github.com/rupert648"
+                  target="_blank"
+                  className="underline"
+                >
+                  Rupert Carr
+                </a>
+              </p>
+              <p className="m-auto mr-0 text-xs font-extralight tracking-widest">
+                <a
+                  href="https://www.twitter.com/rupert648"
+                  target="_blank"
+                  className="hover:underline"
+                >
+                  #️⃣ twitter
+                </a>{" "}
+                <a
+                  href="https://www.buymeacoffee.com/rupertcarr"
+                  target="_blank"
+                  className="hover:underline"
+                >
+                  ☕ buy me a coffee
+                </a>
+                <a
+                  href="https://www.github.com/rupert648"
+                  target="_blank"
+                  className="ml-1 hover:underline"
+                >
+                  🧑‍💻 github
+                </a>
+              </p>
+            </div>
             <Field
               placeholder="Paste your sh*t here"
               id="curlRequest"
@@ -89,7 +123,7 @@ const Home: NextPage = () => {
             <ErrorMessage name="curlRequest" />
             <div className="flex items-center">
               <button
-                className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-black hover:bg-white/20"
+                className="m-4 flex max-w-xs flex-col gap-4 rounded-lg border border-gray-300 p-4 text-black hover:bg-black/5"
                 onClick={() => setShowOptionsModal(true)}
                 type="button"
               >
@@ -98,7 +132,7 @@ const Home: NextPage = () => {
                 </h3>
               </button>
               <button
-                className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-black hover:bg-white/20"
+                className="flex max-w-xs flex-col gap-4 rounded-lg border border-gray-300 p-4 text-black hover:bg-black/5"
                 type="submit"
                 id="submitPasteBin"
               >
