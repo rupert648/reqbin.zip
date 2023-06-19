@@ -5,9 +5,9 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { env } from "../../../env.mjs";
 
-export const curlRouter = createTRPCRouter({
-  createCurl: publicProcedure
-    .input(z.object({ curlRequest: z.string(), isEditable: z.boolean() }))
+export const pasteRouter = createTRPCRouter({
+  createPasteObject: publicProcedure
+    .input(z.object({ pasteContents: z.string(), isEditable: z.boolean() }))
     .mutation(async ({ input, ctx }) => {
       console.log(env.CIPHER_KEY);
       const iv = randomBytes(16);
@@ -17,74 +17,73 @@ export const curlRouter = createTRPCRouter({
         iv
       );
       const encrypted = Buffer.concat([
-        cipher.update(input.curlRequest),
+        cipher.update(input.pasteContents),
         cipher.final(),
       ]);
 
       const encryptedString = encrypted.toString("hex");
 
-      const result = await ctx.prisma.curlRequest.create({
+      const result = await ctx.prisma.pasteObject.create({
         data: {
-          curlRequest: encryptedString,
+          pasteContents: encryptedString,
           iv: iv.toString("hex"),
           isEditable: input.isEditable,
         },
       });
       console.log(result.id);
 
-      return { curlId: result.id };
+      return { pasteObjectId: result.id };
     }),
 
-  updateCurl: publicProcedure
-    .input(z.object({ curlRequestId: z.string(), curlRequest: z.string() }))
+  updatePasteObject: publicProcedure
+    .input(z.object({ pasteObjectId: z.string(), pasteContents: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      const curlRequest = await ctx.prisma.curlRequest.findUnique({
+      const pasteContents = await ctx.prisma.pasteObject.findUnique({
         where: {
-          id: input.curlRequestId,
+          id: input.pasteObjectId,
         },
       });
-      if (!curlRequest) {
-        throw new Error("curl request not found");
+      if (!pasteContents) {
+        throw new Error("paste object not found");
       }
-      const iv = Buffer.from(curlRequest.iv, "hex");
+      const iv = Buffer.from(pasteContents.iv, "hex");
       const cipher = createCipheriv(
         "aes-256-cbc",
         Buffer.from(env.CIPHER_KEY),
         iv
       );
       const encrypted = Buffer.concat([
-        cipher.update(input.curlRequest),
+        cipher.update(input.pasteContents),
         cipher.final(),
       ]);
 
       const encryptedString = encrypted.toString("hex");
 
-      const result = await ctx.prisma.curlRequest.update({
+      const result = await ctx.prisma.pasteObject.update({
         where: {
-          id: input.curlRequestId,
+          id: input.pasteObjectId,
         },
         data: {
-          curlRequest: encryptedString,
+          pasteContents: encryptedString,
         },
       });
-      console.log(result.id);
 
-      return { curlId: result.id };
+      return { pasteObjectId: result.id };
     }),
 
-  getCurl: publicProcedure
-    .input(z.object({ curlRequestId: z.string() }))
+  getPasteObject: publicProcedure
+    .input(z.object({ pasteObjectId: z.string() }))
     .query(async ({ input, ctx }) => {
-      const curlRequest = await ctx.prisma.curlRequest.findUnique({
+      const pasteContents = await ctx.prisma.pasteObject.findUnique({
         where: {
-          id: input.curlRequestId,
+          id: input.pasteObjectId,
         },
       });
-      if (!curlRequest) {
-        throw new Error("curl request not found");
+      if (!pasteContents) {
+        throw new Error("paste object not found");
       }
-      const iv = Buffer.from(curlRequest.iv, "hex");
-      const encryptedText = Buffer.from(curlRequest.curlRequest, "hex");
+      const iv = Buffer.from(pasteContents.iv, "hex");
+      const encryptedText = Buffer.from(pasteContents.pasteContents, "hex");
       const decipher = createDecipheriv(
         "aes-256-cbc",
         Buffer.from(env.CIPHER_KEY),
@@ -95,10 +94,10 @@ export const curlRouter = createTRPCRouter({
         decipher.final(),
       ]);
       const decryptedString = decrypted.toString();
-      console.log(curlRequest.isEditable);
+
       return {
-        curlRequest: decryptedString,
-        isEditable: curlRequest.isEditable,
+        pasteContents: decryptedString,
+        isEditable: pasteContents.isEditable,
       };
     }),
 });

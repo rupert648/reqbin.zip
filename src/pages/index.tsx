@@ -11,9 +11,9 @@ const Home: NextPage = () => {
   const [showOptionsModal, setShowOptionsModal] = useState(false);
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { push } = useRouter();
-  const { mutate } = api.curl.createCurl.useMutation({
+  const { mutate } = api.paste.createPasteObject.useMutation({
     onSuccess: (data) => {
-      push(`${data.curlId}`);
+      push(`${data.pasteObjectId}`);
     },
   });
 
@@ -66,18 +66,25 @@ const Home: NextPage = () => {
         <Title />
         <Formik
           initialValues={{
-            curlRequest: "",
+            pasteContents: "",
             isEditable: true,
             copyLinkToClipboard: true,
           }}
           onSubmit={(values) => {
             mutate({
-              curlRequest: values.curlRequest,
+              pasteContents: values.pasteContents,
               isEditable: values.isEditable,
             });
           }}
+          validate={(values) => {
+            const errors: Record<string, string> = {};
+            if (!values.pasteContents) {
+              errors.pasteContents = "You can't submit any empty ";
+            }
+            return errors;
+          }}
         >
-          <Form className="w-10/12">
+          <Form className="w-3/4">
             <div className="flex">
               <p className="mx-5 -mb-2 text-xs font-extralight tracking-widest">
                 Built by{" "}
@@ -115,12 +122,11 @@ const Home: NextPage = () => {
             </div>
             <Field
               placeholder="Paste your sh*t here"
-              id="curlRequest"
-              name="curlRequest"
+              id="pasteContents"
+              name="pasteContents"
               as="textarea"
               className="m-4 h-[80vh] w-full resize-none rounded-lg border border-gray-300 p-4 focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
-            <ErrorMessage name="curlRequest" />
             <div className="flex items-center">
               <button
                 className="m-4 flex max-w-xs flex-col gap-4 rounded-lg border border-gray-300 p-4 text-black hover:bg-black/5"

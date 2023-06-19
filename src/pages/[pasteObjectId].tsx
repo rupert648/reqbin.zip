@@ -7,13 +7,15 @@ import { Title } from "./components/Title";
 export default function CurlRequestPage() {
   const utils = api.useContext();
   const router = useRouter();
-  const { curlRequestId } = router.query;
-  const { data, error } = api.curl.getCurl.useQuery({
-    curlRequestId: curlRequestId as string,
+  const { pasteObjectId } = router.query;
+  const { data, error } = api.paste.getPasteObject.useQuery({
+    pasteObjectId: pasteObjectId as string,
   });
-  const { mutate: updateCurl } = api.curl.updateCurl.useMutation({
+  const { mutate: updateCurl } = api.paste.updatePasteObject.useMutation({
     onSuccess(data) {
-      void utils.curl.getCurl.invalidate({ curlRequestId: data.curlId });
+      void utils.paste.getPasteObject.invalidate({
+        pasteObjectId: data.pasteObjectId,
+      });
     },
   });
 
@@ -33,7 +35,7 @@ export default function CurlRequestPage() {
     };
   }, []);
 
-  if (typeof curlRequestId !== "string") {
+  if (typeof pasteObjectId !== "string") {
     // TODO: 404 page
     return <p>404</p>;
   }
@@ -49,21 +51,21 @@ export default function CurlRequestPage() {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          curlRequest: data?.curlRequest,
+          pasteContents: data?.pasteContents,
         }}
         onSubmit={(values) => {
-          if (!values.curlRequest) {
+          if (!values.pasteContents) {
             return;
           }
 
           updateCurl({
-            curlRequestId: curlRequestId,
-            curlRequest: values.curlRequest,
+            pasteObjectId: pasteObjectId,
+            pasteContents: values.pasteContents,
           });
         }}
       >
         {({ values }) => (
-          <Form className="w-10/12">
+          <Form className="w-3/4">
             <div className="flex">
               <p className="mx-5 -mb-2 text-xs font-extralight tracking-widest">
                 Built by{" "}
@@ -101,20 +103,21 @@ export default function CurlRequestPage() {
             </div>
             <Field
               placeholder="loading..."
-              id="curlRequest"
-              name="curlRequest"
+              id="pasteContents"
+              name="pasteContents"
               as="textarea"
               className="m-4 h-[80vh] w-full resize-none rounded-lg border border-gray-300 p-4 focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
-            <ErrorMessage name="curlRequest" />
+            <ErrorMessage name="pasteContents" />
             <div className="flex items-center">
               <button
                 className="m-4 flex max-w-xs flex-col gap-4 rounded-lg border border-gray-300 p-4 text-black hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={
-                  values?.curlRequest === data?.curlRequest || !data?.isEditable
+                  values?.pasteContents === data?.pasteContents ||
+                  !data?.isEditable
                 }
                 title={
-                  values?.curlRequest === values.curlRequest
+                  values?.pasteContents === values.pasteContents
                     ? "No changes"
                     : !data?.isEditable
                     ? "Not editable"

@@ -17,11 +17,11 @@ model Example {
     updatedAt DateTime @updatedAt
 }
 
-model CurlRequest {
-    id          String   @id @default(cuid())
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    curlRequest String
-    iv          String
-    isEditable  Boolean  @default(true)
+model PasteObject {
+    id            String   @id @default(cuid())
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+    pasteContents String
+    iv            String
+    isEditable    Boolean  @default(true)
 }

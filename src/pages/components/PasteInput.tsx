@@ -1,21 +1,21 @@
 import { type ChangeEventHandler } from "react";
 
-type CurlInputProps = {
+type PasteInputProps = {
   placeholder: string;
-  curlRequest: string;
+  pasteContents: string;
   onChange: ChangeEventHandler<HTMLTextAreaElement>;
 };
 
-export const CurlInput = ({
+export const PasteInput = ({
   placeholder,
-  curlRequest,
+  pasteContents,
   onChange,
-}: CurlInputProps) => {
+}: PasteInputProps) => {
   return (
     <textarea
       placeholder={placeholder}
       onChange={onChange}
-      value={curlRequest}
+      value={pasteContents}
       className="m-4 h-[80vh] w-10/12 resize-none rounded-lg border border-gray-300 p-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
   );
