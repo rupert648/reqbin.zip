@@ -7,6 +7,7 @@ import { Field, Form, Formik } from "formik";
 import { api } from "~/utils/api";
 import { Title } from "./components/Title";
 import { OptionsModal } from "./components/OptionsModal";
+import { MobileTitle } from "./components/MobileTitle";
 
 const Home: NextPage = () => {
   const [showOptionsModal, setShowOptionsModal] = useState(false);
@@ -86,6 +87,7 @@ const Home: NextPage = () => {
           }}
         >
           <Form className="w-3/4">
+            <MobileTitle />
             <div className="flex">
               <p className="mx-5 -mb-2 text-xs font-extralight tracking-widest">
                 Built by{" "}
@@ -134,8 +136,9 @@ const Home: NextPage = () => {
                 onClick={() => setShowOptionsModal(true)}
                 type="button"
               >
-                <h3 className="text-1xl font-bold">
-                  Options <span className="text-orange-400">(⌘K)</span>
+                <h3 className="md:text-1xl text-xs font-bold">
+                  Options{" "}
+                  <span className="hidden text-orange-400 md:inline">(⌘K)</span>
                 </h3>
               </button>
               <button
@@ -143,9 +146,11 @@ const Home: NextPage = () => {
                 type="submit"
                 id="submitPasteBin"
               >
-                <h3 className="text-1xl font-bold">
+                <h3 className="md:text-1xl text-xs font-bold">
                   Create your Paste bin{" "}
-                  <span className="text-orange-400">(⇧+Enter)</span>
+                  <span className="hidden text-orange-400 md:inline">
+                    (⇧+Enter)
+                  </span>
                 </h3>
               </button>
             </div>

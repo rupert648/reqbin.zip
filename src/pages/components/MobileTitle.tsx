@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 
-export const Title = () => {
+export const MobileTitle = () => {
   const { push } = useRouter();
   return (
     <h1
-      className="-mx-48 hidden rotate-[270deg] cursor-pointer text-9xl font-extrabold lg:block"
+      className="mx-5 mb-5 cursor-pointer text-6xl font-extrabold lg:hidden"
       onClick={() => {
         void push("/");
       }}

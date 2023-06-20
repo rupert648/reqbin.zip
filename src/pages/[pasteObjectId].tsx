@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { Title } from "./components/Title";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
+import { MobileTitle } from "./components/MobileTitle";
 
 export default function CurlRequestPage() {
   const utils = api.useContext();
@@ -79,6 +80,7 @@ export default function CurlRequestPage() {
         {({ values }) => (
           <Form className="w-3/4">
             <div className="flex">
+              <MobileTitle />
               <p className="mx-5 -mb-2 text-xs font-extralight tracking-widest">
                 Built by{" "}
                 <a
@@ -138,8 +140,9 @@ export default function CurlRequestPage() {
                 id="savePasteContents"
                 type="submit"
               >
-                <h3 className="text-1xl font-bold">
-                  Save <span className="text-orange-400">(⌘S)</span>
+                <h3 className="md:text-1xl text-xs font-bold">
+                  Save{" "}
+                  <span className="hidden text-orange-400 md:inline">(⌘S)</span>
                 </h3>
               </button>
               <button
@@ -149,8 +152,11 @@ export default function CurlRequestPage() {
                 // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onClick={() => copyPasteContents(values.pasteContents)}
               >
-                <h3 className="text-1xl font-bold">
-                  Copy Contents <span className="text-orange-400">(⌘+⇧+C)</span>
+                <h3 className="md:text-1xl text-xs font-bold">
+                  Copy Contents{" "}
+                  <span className="hidden text-orange-400 md:inline">
+                    (⌘+⇧+C)
+                  </span>
                 </h3>
               </button>
             </div>
