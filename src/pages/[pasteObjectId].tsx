@@ -3,8 +3,6 @@ import { api } from "~/utils/api";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useEffect } from "react";
 import { Title } from "./components/Title";
-import CodeMirror from "@uiw/react-codemirror";
-import { javascript } from "@codemirror/lang-javascript";
 import { MobileTitle } from "./components/MobileTitle";
 
 export default function CurlRequestPage() {
@@ -57,6 +55,7 @@ export default function CurlRequestPage() {
     // TODO: error page
     return <p>There was an error</p>;
   }
+  console.log(data?.isEditable);
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-gradient-to-b ">
@@ -120,7 +119,9 @@ export default function CurlRequestPage() {
               id="pasteContents"
               name="pasteContents"
               as="textarea"
-              className="m-4 h-[80vh] w-full resize-none rounded-lg border border-gray-300 p-4 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="m-4 h-[80vh] w-full cursor-text resize-none rounded-lg border border-gray-300 p-4 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              disabled={!data?.isEditable}
+              title={!data?.isEditable ? "Not editable" : ""}
             />
             <ErrorMessage name="pasteContents" />
             <div className="flex items-center">
