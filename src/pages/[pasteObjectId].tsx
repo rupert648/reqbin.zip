@@ -3,6 +3,8 @@ import { api } from "~/utils/api";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useEffect } from "react";
 import { Title } from "./components/Title";
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
 
 export default function CurlRequestPage() {
   const utils = api.useContext();
@@ -23,7 +25,10 @@ export default function CurlRequestPage() {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "s" && e.metaKey) {
         e.preventDefault();
-        document.getElementById("saveCurlRequest")?.click();
+        document.getElementById("savePasteContents")?.click();
+      } else if (e.key === "c" && e.metaKey && e.shiftKey) {
+        e.preventDefault();
+        document.getElementById("copyPasteContents")?.click();
       }
     }
 
@@ -34,6 +39,13 @@ export default function CurlRequestPage() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+
+  const copyPasteContents = async (pasteContents?: string) => {
+    if (!pasteContents) {
+      return;
+    }
+    await navigator.clipboard.writeText(pasteContents);
+  };
 
   if (typeof pasteObjectId !== "string") {
     // TODO: 404 page
@@ -123,10 +135,22 @@ export default function CurlRequestPage() {
                     ? "Not editable"
                     : ""
                 }
-                id="saveCurlRequest"
+                id="savePasteContents"
+                type="submit"
               >
                 <h3 className="text-1xl font-bold">
                   Save <span className="text-orange-400">(⌘S)</span>
+                </h3>
+              </button>
+              <button
+                className="m-4 flex max-w-xs flex-col gap-4 rounded-lg border border-gray-300 p-4 text-black hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-50"
+                id="copyPasteContents"
+                type="button"
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                onClick={() => copyPasteContents(values.pasteContents)}
+              >
+                <h3 className="text-1xl font-bold">
+                  Copy Contents <span className="text-orange-400">(⌘+⇧+C)</span>
                 </h3>
               </button>
             </div>

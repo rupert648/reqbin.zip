@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { type NextPage } from "next";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 
 import { api } from "~/utils/api";
 import { Title } from "./components/Title";
+import { OptionsModal } from "./components/OptionsModal";
 
 const Home: NextPage = () => {
   const [showOptionsModal, setShowOptionsModal] = useState(false);
@@ -149,34 +150,7 @@ const Home: NextPage = () => {
               </button>
             </div>
 
-            {showOptionsModal && (
-              <div className="fixed inset-0 flex items-center justify-center bg-black/10">
-                {}
-                <div className="rounded-xl bg-white p-4">
-                  <h3 className="text-1xl font-bold">Options</h3>
-                  <div className="flex flex-col gap-2">
-                    <label className="text-black">
-                      <Field
-                        type="checkbox"
-                        name="copyLinkToClipboard"
-                        id="copyLinkToClipboard"
-                      />
-                      Copy Link to clipboard
-                      <span className="font-extralight">(1)</span>
-                    </label>
-                    <label className="text-black">
-                      <Field
-                        type="checkbox"
-                        name="isEditable"
-                        id="isEditable"
-                      />
-                      Editable
-                      <span className="font-extralight">(2)</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            )}
+            {showOptionsModal && <OptionsModal />}
           </Form>
         </Formik>
       </main>
