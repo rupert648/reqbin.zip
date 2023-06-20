@@ -5,10 +5,10 @@ import Head from "next/head";
 import { Field, Form, Formik } from "formik";
 
 import { api } from "~/utils/api";
-import { Title } from "./components/Title";
-import { OptionsModal } from "./components/OptionsModal";
-import { MobileTitle } from "./components/MobileTitle";
-import { LoadingIcon } from "./components/LoadingIcon";
+import { Title } from "../components/Title";
+import { OptionsModal } from "../components/OptionsModal";
+import { MobileTitle } from "../components/MobileTitle";
+import { LoadingIcon } from "../components/LoadingIcon";
 
 const Home: NextPage = () => {
   const [showOptionsModal, setShowOptionsModal] = useState(false);

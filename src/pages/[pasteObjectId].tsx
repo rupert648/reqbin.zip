@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useEffect } from "react";
-import { Title } from "./components/Title";
-import { MobileTitle } from "./components/MobileTitle";
+import { Title } from "../components/Title";
+import { MobileTitle } from "../components/MobileTitle";
 
 export default function CurlRequestPage() {
   const utils = api.useContext();
