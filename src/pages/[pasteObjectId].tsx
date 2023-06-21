@@ -1,13 +1,16 @@
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { ErrorMessage, Form, Formik } from "formik";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Title } from "../components/Title";
 import { TopIcons } from "~/components/TopIcons";
 import { PasteField } from "~/components/PasteField";
 import Custom404 from "./404";
+import { CopiedToClipboardPopup } from "~/components/[pasteObjectId].tsx/CopiedToClipboardPopup";
 
 export default function CurlRequestPage() {
+  const [showPopup, setShowPopup] = useState(false);
+
   const utils = api.useContext();
   const router = useRouter();
   const { pasteObjectId } = router.query;
@@ -46,6 +49,8 @@ export default function CurlRequestPage() {
       return;
     }
     await navigator.clipboard.writeText(pasteContents);
+
+    setShowPopup(true);
   };
 
   if (typeof pasteObjectId !== "string" || error) {
@@ -119,6 +124,11 @@ export default function CurlRequestPage() {
           </Form>
         )}
       </Formik>
+      <CopiedToClipboardPopup
+        duration={3000}
+        setShowPopup={setShowPopup}
+        showPopup={showPopup}
+      />
     </main>
   );
 }
