@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { Title } from "../components/Title";
 import { TopIcons } from "~/components/TopIcons";
 import { PasteField } from "~/components/PasteField";
+import Custom404 from "./404";
 
 export default function CurlRequestPage() {
   const utils = api.useContext();
@@ -47,14 +48,8 @@ export default function CurlRequestPage() {
     await navigator.clipboard.writeText(pasteContents);
   };
 
-  if (typeof pasteObjectId !== "string") {
-    // TODO: 404 page
-    return <p>404</p>;
-  }
-
-  if (error) {
-    // TODO: error page
-    return <p>There was an error</p>;
+  if (typeof pasteObjectId !== "string" || error) {
+    return <Custom404 />;
   }
 
   return (
