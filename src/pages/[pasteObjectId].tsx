@@ -1,15 +1,16 @@
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik } from "formik";
 import { useEffect } from "react";
 import { Title } from "../components/Title";
-import { MobileTitle } from "../components/MobileTitle";
+import { TopIcons } from "~/components/TopIcons";
+import { PasteField } from "~/components/PasteField";
 
 export default function CurlRequestPage() {
   const utils = api.useContext();
   const router = useRouter();
   const { pasteObjectId } = router.query;
-  const { data, error } = api.paste.getPasteObject.useQuery({
+  const { data, error, isLoading } = api.paste.getPasteObject.useQuery({
     pasteObjectId: pasteObjectId as string,
   });
   const { mutate: updateCurl } = api.paste.updatePasteObject.useMutation({
@@ -55,7 +56,6 @@ export default function CurlRequestPage() {
     // TODO: error page
     return <p>There was an error</p>;
   }
-  console.log(data?.isEditable);
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-gradient-to-b ">
@@ -78,50 +78,10 @@ export default function CurlRequestPage() {
       >
         {({ values }) => (
           <Form className="w-3/4">
-            <div className="flex">
-              <MobileTitle />
-              <p className="mx-5 -mb-2 text-xs font-extralight tracking-widest">
-                Built by{" "}
-                <a
-                  href="https://www.github.com/rupert648"
-                  target="_blank"
-                  className="underline"
-                >
-                  Rupert Carr
-                </a>
-              </p>
-              <p className="m-auto mr-0 text-xs font-extralight tracking-widest">
-                <a
-                  href="https://www.twitter.com/rupert648"
-                  target="_blank"
-                  className="hover:underline"
-                >
-                  #️⃣ twitter
-                </a>{" "}
-                <a
-                  href="https://www.buymeacoffee.com/rupertcarr"
-                  target="_blank"
-                  className="hover:underline"
-                >
-                  ☕ buy me a coffee
-                </a>
-                <a
-                  href="https://www.github.com/rupert648"
-                  target="_blank"
-                  className="ml-1 hover:underline"
-                >
-                  🧑‍💻 github
-                </a>
-              </p>
-            </div>
-            <Field
-              placeholder="loading..."
-              id="pasteContents"
-              name="pasteContents"
-              as="textarea"
-              className="m-4 h-[80vh] w-full cursor-text resize-none rounded-lg border border-gray-300 p-4 focus:outline-none focus:ring-2 focus:ring-orange-400"
-              disabled={!data?.isEditable}
-              title={!data?.isEditable ? "Not editable" : ""}
+            <TopIcons />
+            <PasteField
+              isEditable={data?.isEditable ?? false}
+              placeholder={isLoading ? "Loading..." : ""}
             />
             <ErrorMessage name="pasteContents" />
             <div className="flex items-center">
