@@ -1,36 +1,31 @@
-import { createCipheriv, createDecipheriv, randomBytes } from "crypto";
-
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { env } from "../../../env.mjs";
+import { decrypt, encrypt } from "../../utils/encrypt";
+import { hasTimedOut } from "../../utils/timeout";
 
 export const pasteRouter = createTRPCRouter({
   createPasteObject: publicProcedure
-    .input(z.object({ pasteContents: z.string(), isEditable: z.boolean() }))
+    .input(
+      z.object({
+        pasteContents: z.string(),
+        isEditable: z.boolean(),
+        timeoutDate: z.date().optional(),
+      })
+    )
     .mutation(async ({ input, ctx }) => {
-      console.log(env.CIPHER_KEY);
-      const iv = randomBytes(16);
-      const cipher = createCipheriv(
-        "aes-256-cbc",
-        Buffer.from(env.CIPHER_KEY),
-        iv
-      );
-      const encrypted = Buffer.concat([
-        cipher.update(input.pasteContents),
-        cipher.final(),
-      ]);
-
-      const encryptedString = encrypted.toString("hex");
+      const { encryptedString, iv } = encrypt(input.pasteContents);
 
       const result = await ctx.prisma.pasteObject.create({
         data: {
           pasteContents: encryptedString,
-          iv: iv.toString("hex"),
+          iv,
           isEditable: input.isEditable,
+          hasTimeout: Boolean(input.timeoutDate),
+          timeoutDate: input.timeoutDate,
         },
       });
-      console.log(result.id);
 
       return { pasteObjectId: result.id };
     }),
@@ -46,18 +41,8 @@ export const pasteRouter = createTRPCRouter({
       if (!pasteContents) {
         throw new Error("paste object not found");
       }
-      const iv = Buffer.from(pasteContents.iv, "hex");
-      const cipher = createCipheriv(
-        "aes-256-cbc",
-        Buffer.from(env.CIPHER_KEY),
-        iv
-      );
-      const encrypted = Buffer.concat([
-        cipher.update(input.pasteContents),
-        cipher.final(),
-      ]);
 
-      const encryptedString = encrypted.toString("hex");
+      const { encryptedString, iv } = encrypt(input.pasteContents);
 
       const result = await ctx.prisma.pasteObject.update({
         where: {
@@ -65,6 +50,7 @@ export const pasteRouter = createTRPCRouter({
         },
         data: {
           pasteContents: encryptedString,
+          iv,
         },
       });
 
@@ -80,20 +66,23 @@ export const pasteRouter = createTRPCRouter({
         },
       });
       if (!pasteContents) {
-        throw new Error("paste object not found");
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Paste bin not found",
+        });
       }
-      const iv = Buffer.from(pasteContents.iv, "hex");
-      const encryptedText = Buffer.from(pasteContents.pasteContents, "hex");
-      const decipher = createDecipheriv(
-        "aes-256-cbc",
-        Buffer.from(env.CIPHER_KEY),
-        iv
+
+      if (pasteContents.hasTimeout && hasTimedOut(pasteContents.timeoutDate)) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Paste bin not found",
+        });
+      }
+
+      const decryptedString = decrypt(
+        pasteContents.pasteContents,
+        pasteContents.iv
       );
-      const decrypted = Buffer.concat([
-        decipher.update(encryptedText),
-        decipher.final(),
-      ]);
-      const decryptedString = decrypted.toString();
 
       return {
         pasteContents: decryptedString,
