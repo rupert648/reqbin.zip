@@ -11,12 +11,17 @@ All data stored in this application is encrypted at rest. But this is hardly nec
 The application is deployed on Vercel.
 
 # Feature List
-- [ ] Configure PasteBin timeouts
+- [x] Configure PasteBin timeouts
 - [ ] Syntax highlighting (or at least a slightly nicer textbox) - [CodeMirror](https://codemirror.net/) looks fun.
-- [ ] textarea focus on page load
 - [ ] Copy URL to clipboard on creation
-- [ ] Improved mobile view
-- [ ] Better error messages (or any at all lol)
 - [ ] Slack link preview
 - [ ] Raycast create paste bin command (Direct URL to create pastebin)
 - [ ] .raw ending to just show the text
+- [ ] "expires in..." timer on paste page.
+
+# Minor Improvements list
+- [ ] Improve mobile view
+- [ ] shadow on options dialog box
+- [ ] better loading states
+- [ ] textarea focus on page load
+- [ ] Better error messages (or any at all lol)

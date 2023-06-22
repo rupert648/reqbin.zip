@@ -10,6 +10,8 @@ import { OptionsModal } from "../components/OptionsModal";
 import { LoadingIcon } from "../components/LoadingIcon";
 import { TopIcons } from "~/components/TopIcons";
 import { PasteField } from "~/components/PasteField";
+import { timeoutValues } from "~/constants/timeout-values";
+import { calculateTimeoutDate } from "~/utils/timeout";
 
 const Home: NextPage = () => {
   const [showOptionsModal, setShowOptionsModal] = useState(false);
@@ -45,6 +47,8 @@ const Home: NextPage = () => {
           case "2":
             document.getElementById("isEditable")?.click();
             break;
+          case "3":
+            document.getElementById("hasTimeeout")?.click();
           default:
             break;
         }
@@ -76,11 +80,16 @@ const Home: NextPage = () => {
             pasteContents: "",
             isEditable: true,
             copyLinkToClipboard: true,
+            hasTimeout: false,
+            timeout: timeoutValues[0]?.value ?? 60,
           }}
           onSubmit={(values) => {
+            const timeoutDate = calculateTimeoutDate(values.timeout);
+
             mutate({
               pasteContents: values.pasteContents,
               isEditable: values.isEditable,
+              ...(values.hasTimeout ? { timeoutDate: timeoutDate } : {}),
             });
           }}
           validate={(values) => {
@@ -91,39 +100,50 @@ const Home: NextPage = () => {
             return errors;
           }}
         >
-          <Form className="w-3/4">
-            <TopIcons />
-            <PasteField isEditable={true} placeholder="Paste your sh*t here" />
-            <div className="flex items-center">
-              <button
-                className="m-4 flex max-w-xs flex-col gap-4 rounded-lg border border-gray-300 p-4 text-black hover:bg-black/5"
-                onClick={() => setShowOptionsModal(true)}
-                type="button"
-                disabled={isLoading}
-              >
-                <h3 className="md:text-1xl text-xs font-bold">
-                  Options{" "}
-                  <span className="hidden text-orange-400 md:inline">(⌘K)</span>
-                </h3>
-              </button>
-              <button
-                className="flex max-w-xs flex-col gap-4 rounded-lg border border-gray-300 p-4 text-black hover:bg-black/5"
-                type="submit"
-                id="submitPasteBin"
-                disabled={isLoading}
-              >
-                <h3 className="md:text-1xl text-xs font-bold">
-                  Create your Paste bin{" "}
-                  <span className="hidden text-orange-400 md:inline">
-                    (⇧+Enter)
-                  </span>
-                </h3>
-              </button>
-              <div className="mx-auto mr-0">{isLoading && <LoadingIcon />}</div>
-            </div>
+          {({ values }) => (
+            <Form className="w-3/4">
+              <TopIcons />
+              <PasteField
+                isEditable={true}
+                placeholder="Paste your sh*t here"
+              />
+              <div className="flex items-center">
+                <button
+                  className="m-4 flex max-w-xs flex-col gap-4 rounded-lg border border-gray-300 p-4 text-black hover:bg-black/5"
+                  onClick={() => setShowOptionsModal(true)}
+                  type="button"
+                  disabled={isLoading}
+                >
+                  <h3 className="md:text-1xl text-xs font-bold">
+                    Options{" "}
+                    <span className="hidden text-orange-400 md:inline">
+                      (⌘K)
+                    </span>
+                  </h3>
+                </button>
+                <button
+                  className="flex max-w-xs flex-col gap-4 rounded-lg border border-gray-300 p-4 text-black hover:bg-black/5"
+                  type="submit"
+                  id="submitPasteBin"
+                  disabled={isLoading}
+                >
+                  <h3 className="md:text-1xl text-xs font-bold">
+                    Create your Paste bin{" "}
+                    <span className="hidden text-orange-400 md:inline">
+                      (⇧+Enter)
+                    </span>
+                  </h3>
+                </button>
+                <div className="mx-auto mr-0">
+                  {isLoading && <LoadingIcon />}
+                </div>
+              </div>
 
-            {showOptionsModal && <OptionsModal />}
-          </Form>
+              {showOptionsModal && (
+                <OptionsModal hasTimeout={values.hasTimeout} />
+              )}
+            </Form>
+          )}
         </Formik>
       </main>
     </>
