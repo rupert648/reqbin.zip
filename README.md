@@ -21,7 +21,7 @@ The application is deployed on Vercel.
 
 # Minor Improvements list
 - [ ] Improve mobile view
-- [ ] shadow on options dialog box
+- [x] shadow on options dialog box
 - [ ] better loading states
-- [ ] textarea focus on page load
+- [x] textarea focus on page load
 - [ ] Better error messages (or any at all lol)
