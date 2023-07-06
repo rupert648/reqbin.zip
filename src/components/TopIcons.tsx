@@ -5,7 +5,7 @@ export const TopIcons = () => {
     <>
       <MobileTitle />
       <div className="flex">
-        <p className="mx-5 -mb-2 text-xs font-extralight tracking-widest">
+        <p className="mx-5 -mb-2 hidden text-xs font-extralight tracking-widest md:block">
           Built by{" "}
           <a
             href="https://www.github.com/rupert648"
@@ -15,7 +15,7 @@ export const TopIcons = () => {
             Rupert Carr
           </a>
         </p>
-        <p className="m-auto mr-0 text-xs font-extralight tracking-widest">
+        <p className="mr-0 text-xs font-extralight tracking-widest md:m-auto md:mr-0">
           <a
             href="https://www.twitter.com/rupert648"
             target="_blank"
