@@ -4,16 +4,11 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { decrypt, encrypt } from "../../utils/encrypt";
 import { hasTimedOut } from "../../utils/timeout";
+import { createPasteBinSchema } from "../schemas/create-paste-bin";
 
 export const pasteRouter = createTRPCRouter({
   createPasteObject: publicProcedure
-    .input(
-      z.object({
-        pasteContents: z.string(),
-        isEditable: z.boolean(),
-        timeoutDate: z.date().optional(),
-      })
-    )
+    .input(createPasteBinSchema)
     .mutation(async ({ input, ctx }) => {
       const { encryptedString, iv } = encrypt(input.pasteContents);
 

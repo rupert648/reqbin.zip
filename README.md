@@ -16,6 +16,8 @@ The application is deployed on Vercel.
 - [ ] Copy URL to clipboard on creation
 - [ ] Slack link preview
 - [ ] Raycast create paste bin command (Direct URL to create pastebin)
+  - [x] Direct API URL to create pastebin
+  - [x] Direct API Url to get pastebin
 - [ ] .raw ending to just show the text
 - [ ] "expires in..." timer on paste page.
 
