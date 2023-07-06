@@ -10,7 +10,11 @@ export const TimeoutDropdown = ({ hasTimeout }: TimeoutDropdownProps) => {
     return null;
   }
   return (
-    <Field className="text-black" name="timeout" as="select">
+    <Field
+      className="text-blac rounded-lg border border-gray-300 bg-white p-2 hover:bg-black/5"
+      name="timeout"
+      as="select"
+    >
       {timeoutValues.map((timeoutValue) => (
         <option key={timeoutValue.value} value={timeoutValue.value}>
           {timeoutValue.label}

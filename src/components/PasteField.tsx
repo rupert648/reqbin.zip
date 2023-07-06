@@ -1,4 +1,5 @@
 import { Field } from "formik";
+import { useEffect } from "react";
 
 interface PasteFieldProps {
   isEditable: boolean;
@@ -6,8 +7,13 @@ interface PasteFieldProps {
 }
 
 export const PasteField = ({ isEditable, placeholder }: PasteFieldProps) => {
+  useEffect(() => {
+    document.getElementById("pasteContents")?.focus();
+  }, []);
+
   return (
     <Field
+      autoFocus
       placeholder={placeholder}
       id="pasteContents"
       name="pasteContents"

@@ -6,39 +6,40 @@ interface OptionsModalProps {
 
 export const OptionsModal = ({ hasTimeout }: OptionsModalProps) => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/10">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/10 drop-shadow-xl">
       <div className="rounded-xl bg-white p-4">
-        <h3 className="text-1xl font-bold">Options</h3>
+        <h3 className="mb-1 text-2xl font-bold">Options</h3>
+        <hr className="mb-2 border-orange-400" />
         <div className="flex flex-col gap-2">
           <label className="flex text-black">
+            <span className="mr-2 font-extralight">(1)</span>
+            <span className="mr-5">Copy Link to Clipboard</span>
             <Field
               type="checkbox"
               name="copyLinkToClipboard"
               id="copyLinkToClipboard"
-              className="mr-2"
+              className="ml-auto"
             />
-            Copy Link to clipboard
-            <span className="ml-5 font-extralight">(1)</span>
           </label>
           <label className="flex text-black">
+            <span className="mr-2 font-extralight">(2)</span>
+            Editable
             <Field
               type="checkbox"
               name="isEditable"
               id="isEditable"
-              className="mr-2"
+              className="ml-auto"
             />
-            Editable
-            <span className="ml-auto font-extralight">(2)</span>
           </label>
           <label className="flex text-black">
+            <span className="mr-2 font-extralight">(3)</span>
+            Has Timeout?
             <Field
               type="checkbox"
               name="hasTimeout"
               id="hasTimeeout"
-              className="mr-2"
+              className="ml-auto"
             />
-            Has Timeout?
-            <span className="ml-auto font-extralight">(3)</span>
           </label>
           <TimeoutDropdown hasTimeout={hasTimeout} />
         </div>
