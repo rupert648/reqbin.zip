@@ -7,7 +7,7 @@ import { Form, Formik } from "formik";
 import { api } from "~/utils/api";
 import { Title } from "../components/Title";
 import { OptionsModal } from "../components/OptionsModal";
-import { LoadingIcon } from "../components/LoadingIcon";
+import { LoadingIcon } from "../components/icons/LoadingIcon";
 import { TopIcons } from "~/components/TopIcons";
 import { PasteField } from "~/components/PasteField";
 import { timeoutValues } from "~/constants/timeout-values";
@@ -101,7 +101,7 @@ const Home: NextPage = () => {
           }}
         >
           {({ values }) => (
-            <Form className="w-3/4">
+            <Form className="w-11/12 md:w-3/4">
               <TopIcons />
               <PasteField
                 isEditable={true}
@@ -140,7 +140,10 @@ const Home: NextPage = () => {
               </div>
 
               {showOptionsModal && (
-                <OptionsModal hasTimeout={values.hasTimeout} />
+                <OptionsModal
+                  hasTimeout={values.hasTimeout}
+                  setShowOptionsModal={setShowOptionsModal}
+                />
               )}
             </Form>
           )}
