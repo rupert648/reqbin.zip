@@ -1,27 +1,29 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "reqbin-zip",
-  "title": "Reqbin.zip",
-  "description": "Creates a reqbin.zip paste bin from the given contents, and copies the link to the clipboard",
-  "icon": "command-icon.png",
+  "title": "Reqbin.zip - Create and Copy ReqBins",
+  "description": "Perform create and copy operations on ReqBin paste pages from Raycast",
+  "icon": "reqbin-icon.png",
   "author": "rupert648",
   "categories": [
-    "Data"
+    "Data",
+    "Productivity",
+    "Applications"
   ],
   "license": "MIT",
   "commands": [
     {
       "name": "index",
-      "title": "ReqBin Create",
-      "subtitle": "Create a reqbin paste page",
-      "description": "Form to create and open a ReqBin paste page",
+      "title": "Create New",
+      "subtitle": "ReqBin.zip",
+      "description": "Create and open a new ReqBin from Raycast",
       "mode": "view"
     },
     {
       "name": "pull",
-      "title": "ReqBin Copy",
-      "subtitle": "Copy the contents of a ReqBin",
-      "description": "Enter a link or id to copy the contents of a ReqBin paste page to the clipboard",
+      "title": "Copy Contents",
+      "subtitle": "ReqBin.zip",
+      "description": "Enter a link or id to copy the contents of a ReqBin to the clipboard",
       "mode": "view"
     }
   ],
