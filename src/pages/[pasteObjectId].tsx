@@ -133,4 +133,4 @@ export default function CurlRequestPage() {
   );
 }
 
-export const runtime = "edge";
+export const runtime = "experimental-edge";
