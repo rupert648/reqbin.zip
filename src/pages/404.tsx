@@ -14,5 +14,3 @@ export default function Custom404() {
     </main>
   );
 }
-
-export const runtime = "experimental-edge";
