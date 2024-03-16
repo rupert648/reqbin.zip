@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { Title } from "../components/Title";
 import { TopIcons } from "~/components/TopIcons";
 import { PasteField } from "~/components/PasteField";
-import Custom404 from "./404";
 import { CopiedToClipboardPopup } from "~/components/[pasteObjectId].tsx/CopiedToClipboardPopup";
 
 export default function CurlRequestPage() {
@@ -54,7 +53,8 @@ export default function CurlRequestPage() {
   };
 
   if (typeof pasteObjectId !== "string" || error) {
-    return <Custom404 />;
+    // TODO: rebuild 404 page with edge rendering
+    return <h1> wah wah </h1>;
   }
 
   return (
