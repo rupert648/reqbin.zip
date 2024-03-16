@@ -95,8 +95,8 @@ export default function CurlRequestPage() {
                   values?.pasteContents === values.pasteContents
                     ? "No changes"
                     : !data?.isEditable
-                      ? "Not editable"
-                      : ""
+                    ? "Not editable"
+                    : ""
                 }
                 id="savePasteContents"
                 type="submit"
@@ -132,3 +132,5 @@ export default function CurlRequestPage() {
     </main>
   );
 }
+
+export const runtime = "experimental-edge";

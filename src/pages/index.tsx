@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { type NextPage } from "next";
+import type { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
 import { Form, Formik } from "formik";
@@ -153,3 +153,4 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+export const runtime = "experimental-edge";
