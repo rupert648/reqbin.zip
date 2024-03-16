@@ -8,7 +8,7 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "pages:build": "mkdir .vercel; echo '{\"projectId\":\"_\",\"orgId\":\"_\",\"settings\":{\"framework\":\"nextjs\"}}' > .vercel/project.json; npx vercel build; rm -rf .vercel/output/functions/en/_error*; npx @cloudflare/next-on-pages --skip-build;"
+    "pages:build": "mkdir .vercel; echo '{\"projectId\":\"prj_oIFNXRC3BI19FLREnl8oyS98oxQ3\",\"orgId\":\"V9PbKDLsqz4Ez73wuEjcuIQq\",\"settings\":{\"framework\":\"nextjs\"}}' > .vercel/project.json; npx vercel build; rm -rf .vercel/output/functions/en/_error*; npx @cloudflare/next-on-pages --skip-build;"
   },
   "dependencies": {
     "@prisma/client": "^4.11.0",
