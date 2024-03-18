@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Title } from "../components/Title";
 import { TopIcons } from "~/components/TopIcons";
 import { PasteField } from "~/components/PasteField";
+import Custom404 from "./404";
 import { CopiedToClipboardPopup } from "~/components/[pasteObjectId].tsx/CopiedToClipboardPopup";
 
 export default function CurlRequestPage() {
@@ -54,7 +55,7 @@ export default function CurlRequestPage() {
 
   if (typeof pasteObjectId !== "string" || error) {
     // TODO: rebuild 404 page with edge rendering
-    return <h1> wah wah </h1>;
+    return <Custom404 />;
   }
 
   return (
@@ -95,8 +96,8 @@ export default function CurlRequestPage() {
                   values?.pasteContents === values.pasteContents
                     ? "No changes"
                     : !data?.isEditable
-                    ? "Not editable"
-                    : ""
+                      ? "Not editable"
+                      : ""
                 }
                 id="savePasteContents"
                 type="submit"
