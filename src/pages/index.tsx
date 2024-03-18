@@ -153,4 +153,3 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-export const runtime = "experimental-edge";

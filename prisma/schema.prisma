@@ -3,12 +3,12 @@
 
 generator client {
     provider        = "prisma-client-js"
-    previewFeatures = ["jsonProtocol"]
+    previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-    provider     = "mysql"
-    url          = env("DATABASE_URL")
+    provider     = "sqlite"
+    url          = "file:./dev.db"
     relationMode = "prisma"
 }
 
@@ -24,7 +24,7 @@ model PasteObject {
     updatedAt     DateTime  @updatedAt
     hasTimeout    Boolean   @default(false)
     timeoutDate   DateTime?
-    pasteContents String    @db.Text
+    pasteContents String
     iv            String
     isEditable    Boolean   @default(true)
 }
