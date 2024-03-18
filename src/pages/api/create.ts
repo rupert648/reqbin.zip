@@ -22,5 +22,3 @@ export default async function handler(
     res.status(400).json({ error });
   }
 }
-
-export const runtime = "edge";
