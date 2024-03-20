@@ -1,41 +1,55 @@
 import { MobileTitle } from "./MobileTitle";
+import { TimeLeft } from "./TimeLeft";
 
-export const TopIcons = () => {
+type TopIconsProps = {
+  pasteObjectId?: string;
+  timeoutDate?: Date | null;
+};
+
+export const TopIcons = ({ pasteObjectId, timeoutDate }: TopIconsProps) => {
   return (
     <>
       <MobileTitle />
       <div className="flex">
-        <p className="mx-5 -mb-2 hidden text-xs font-extralight tracking-widest md:block">
+        {pasteObjectId ? (
+          <p className="mx-5 -mb-2 hidden border-b-2 border-orange-400 text-xs font-extralight tracking-widest md:block">
+            {pasteObjectId}
+          </p>
+        ) : null}
+        {timeoutDate ? (
+          <p className="mx-5 -mb-2 hidden border-b-2 border-orange-400 text-xs font-extralight tracking-widest md:block">
+            <TimeLeft timeoutDate={timeoutDate} />
+          </p>
+        ) : null}
+        <p className="mr-0 text-xs font-extralight tracking-widest md:m-auto md:mr-0">
           Built by{" "}
           <a
             href="https://www.github.com/rupert648"
             target="_blank"
-            className="underline"
+            className="mr-2 underline"
           >
             Rupert Carr
           </a>
-        </p>
-        <p className="mr-0 text-xs font-extralight tracking-widest md:m-auto md:mr-0">
           <a
             href="https://www.twitter.com/rupert648"
             target="_blank"
             className="hover:underline"
           >
-            #️⃣ twitter
+            • #️⃣ twitter
           </a>{" "}
           <a
             href="https://www.buymeacoffee.com/rupertcarr"
             target="_blank"
             className="hover:underline"
           >
-            ☕ buy me a coffee
+            • ☕ buy me a coffee
           </a>
           <a
             href="https://www.github.com/rupert648"
             target="_blank"
             className="ml-1 hover:underline"
           >
-            🧑‍💻 github
+            • 🧑‍💻 github
           </a>
         </p>
       </div>
