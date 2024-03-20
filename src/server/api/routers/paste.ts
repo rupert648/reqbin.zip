@@ -36,6 +36,12 @@ export const pasteRouter = createTRPCRouter({
       if (!pasteContents) {
         throw new Error("paste object not found");
       }
+      if (!pasteContents.isEditable) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Paste bin is not editable",
+        });
+      }
 
       const { encryptedString, iv } = encrypt(input.pasteContents);
 
@@ -82,6 +88,11 @@ export const pasteRouter = createTRPCRouter({
       return {
         pasteContents: decryptedString,
         isEditable: pasteContents.isEditable,
+        ...(pasteContents.hasTimeout
+          ? {
+            timeoutDate: pasteContents.timeoutDate,
+          }
+          : {}),
       };
     }),
 });

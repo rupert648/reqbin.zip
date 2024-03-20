@@ -79,7 +79,10 @@ export default function CurlRequestPage() {
       >
         {({ values }) => (
           <Form className="w-3/4">
-            <TopIcons />
+            <TopIcons
+              pasteObjectId={pasteObjectId}
+              timeoutDate={data?.timeoutDate}
+            />
             <PasteField
               isEditable={data?.isEditable ?? false}
               placeholder={isLoading ? "Loading..." : ""}
