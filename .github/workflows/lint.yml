@@ -31,8 +31,8 @@ jobs:
         uses: borales/actions-yarn@v4
         env:
           # need to include these for tsc to be happy
-          - CIPHER_KEY: ci
-          - TURSO_DATABASE_URL: url
-          - TURSO_AUTH_TOKEN: auth_token
+          CIPHER_KEY: ci
+          TURSO_DATABASE_URL: url
+          TURSO_AUTH_TOKEN: auth_token
         with:
           cmd: lint
