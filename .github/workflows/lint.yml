@@ -22,8 +22,10 @@ jobs:
         with:
           node-version: 12
 
-      - name: Install Node.js dependencies
-        run: npm i
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install --frozen-lockfile
 
       - name: Run linters
         uses: wearerequired/lint-action@v2
