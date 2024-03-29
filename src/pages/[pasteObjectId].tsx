@@ -11,9 +11,10 @@ import { CopiedToClipboardPopup } from "~/components/[pasteObjectId].tsx/CopiedT
 export default function CurlRequestPage() {
   const [showPopup, setShowPopup] = useState(false);
 
-  const utils = api.useContext();
+  const utils = api.useUtils();
   const router = useRouter();
   const { pasteObjectId } = router.query;
+
   const { data, error, isLoading } = api.paste.getPasteObject.useQuery({
     pasteObjectId: pasteObjectId as string,
   });
