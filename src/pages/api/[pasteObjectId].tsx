@@ -1,6 +1,7 @@
 import { type TRPCError } from "@trpc/server";
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { appRouter } from "~/server/api/root";
+import { getPasteObjectSchema } from "~/server/api/schemas/get-paste-object";
 import { createInnerTRPCContext } from "~/server/api/trpc";
 
 export default async function handler(
@@ -14,13 +15,13 @@ export default async function handler(
   const caller = appRouter.createCaller(createInnerTRPCContext());
 
   try {
-    const { pasteObjectId } = req.query;
+    const safeQuery = getPasteObjectSchema.safeParse(req.query);
 
-    if (typeof pasteObjectId !== "string") {
+    if (!safeQuery.success) {
       return res.status(400).json({ message: "Invalid paste object ID" });
     }
 
-    const pasteObject = await caller.paste.getPasteObject({ pasteObjectId });
+    const pasteObject = await caller.paste.getPasteObject(safeQuery.data);
     return res.status(200).json(pasteObject);
   } catch (error) {
     const trpcError = error as TRPCError;

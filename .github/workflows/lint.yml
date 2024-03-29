@@ -1,0 +1,38 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18
+
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install --frozen-lockfile
+
+      - name: lint
+        uses: borales/actions-yarn@v4
+        env:
+          # need to include these for tsc to be happy
+          CIPHER_ENV: ci
+          TURSO_DATABASE_URL: url
+          TURSO_AUTH_TOKEN: auth_token
+        with:
+          cmd: lint

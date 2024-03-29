@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { appRouter } from "~/server/api/root";
+import { createPasteBinSchema } from "~/server/api/schemas/create-paste-bin";
 import { createInnerTRPCContext } from "~/server/api/trpc";
 
 export default async function handler(
@@ -14,9 +15,15 @@ export default async function handler(
 
   const caller = appRouter.createCaller(createInnerTRPCContext());
 
+  const safeBody = createPasteBinSchema.safeParse(req.body);
+
+  if (!safeBody.success) {
+    res.status(400).json({ error: "invalid input" });
+    return;
+  }
+
   try {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const result = await caller.paste.createPasteObject(req.body);
+    const result = await caller.paste.createPasteObject(safeBody.data);
     res.status(200).json(result);
   } catch (error) {
     res.status(400).json({ error });

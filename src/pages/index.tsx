@@ -13,33 +13,38 @@ import { PasteField } from "~/components/PasteField";
 import { timeoutValues } from "~/constants/timeout-values";
 import { calculateTimeoutDate } from "~/utils/timeout";
 
+const initialFormValues = {
+  pasteContents: "",
+  isEditable: true,
+  copyLinkToClipboard: true,
+  hasTimeout: false,
+  timeout: timeoutValues[0]?.value ?? 60,
+} as const;
+
 const Home: NextPage = () => {
   const [showOptionsModal, setShowOptionsModal] = useState(false);
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { push } = useRouter();
   const { mutate, isLoading } = api.paste.createPasteObject.useMutation({
     onSuccess: (data) => {
-      push(`${data.pasteObjectId}`);
+      push(data.pasteObjectId);
     },
   });
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
+      e.preventDefault();
       if (e.key === "k" && e.metaKey) {
-        e.preventDefault();
         setShowOptionsModal(!showOptionsModal);
       }
       if (e.key === "Escape") {
-        e.preventDefault();
         setShowOptionsModal(false);
       }
       if (e.key === "Enter" && e.shiftKey) {
-        e.preventDefault();
         document.getElementById("submitPasteBin")?.click();
       }
 
       if (showOptionsModal) {
-        e.preventDefault();
         switch (e.key) {
           case "1":
             document.getElementById("copyLinkToClipboard")?.click();
@@ -62,6 +67,24 @@ const Home: NextPage = () => {
     };
   }, [showOptionsModal]);
 
+  const submitPasteBin = (values: typeof initialFormValues) => {
+    const timeoutDate = calculateTimeoutDate(values.timeout);
+
+    mutate({
+      pasteContents: values.pasteContents,
+      isEditable: values.isEditable,
+      ...(values.hasTimeout ? { timeoutDate: timeoutDate } : {}),
+    });
+  };
+
+  const validatePasteBin = (values: typeof initialFormValues) => {
+    const errors: Record<string, string> = {};
+    if (!values.pasteContents) {
+      errors.pasteContents = "You can't submit any empty ";
+    }
+    return errors;
+  };
+
   return (
     <>
       <Head>
@@ -75,29 +98,9 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen items-center justify-center bg-gradient-to-b ">
         <Title />
         <Formik
-          initialValues={{
-            pasteContents: "",
-            isEditable: true,
-            copyLinkToClipboard: true,
-            hasTimeout: false,
-            timeout: timeoutValues[0]?.value ?? 60,
-          }}
-          onSubmit={(values) => {
-            const timeoutDate = calculateTimeoutDate(values.timeout);
-
-            mutate({
-              pasteContents: values.pasteContents,
-              isEditable: values.isEditable,
-              ...(values.hasTimeout ? { timeoutDate: timeoutDate } : {}),
-            });
-          }}
-          validate={(values) => {
-            const errors: Record<string, string> = {};
-            if (!values.pasteContents) {
-              errors.pasteContents = "You can't submit any empty ";
-            }
-            return errors;
-          }}
+          initialValues={initialFormValues}
+          onSubmit={submitPasteBin}
+          validate={validatePasteBin}
         >
           {({ values }) => (
             <Form className="w-11/12 md:w-3/4">

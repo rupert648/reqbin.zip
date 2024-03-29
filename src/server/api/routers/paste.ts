@@ -5,6 +5,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { decrypt, encrypt } from "../../utils/encrypt";
 import { hasTimedOut } from "../../utils/timeout";
 import { createPasteBinSchema } from "../schemas/create-paste-bin";
+import { getPasteObjectSchema } from "../schemas/get-paste-object";
 
 export const pasteRouter = createTRPCRouter({
   createPasteObject: publicProcedure
@@ -59,7 +60,7 @@ export const pasteRouter = createTRPCRouter({
     }),
 
   getPasteObject: publicProcedure
-    .input(z.object({ pasteObjectId: z.string() }))
+    .input(getPasteObjectSchema)
     .query(async ({ input, ctx }) => {
       const pasteContents = await ctx.prisma.pasteObject.findUnique({
         where: {
