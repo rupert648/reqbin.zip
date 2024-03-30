@@ -33,18 +33,21 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      e.preventDefault();
       if (e.key === "k" && e.metaKey) {
+        e.preventDefault();
         setShowOptionsModal(!showOptionsModal);
       }
       if (e.key === "Escape") {
+        e.preventDefault();
         setShowOptionsModal(false);
       }
       if (e.key === "Enter" && e.shiftKey) {
+        e.preventDefault();
         document.getElementById("submitPasteBin")?.click();
       }
 
       if (showOptionsModal) {
+        e.preventDefault();
         switch (e.key) {
           case "1":
             document.getElementById("copyLinkToClipboard")?.click();
@@ -152,7 +155,7 @@ const Home: NextPage = () => {
         </Formik>
       </main>
     </>
-  );
+);
 };
 
 export default Home;
