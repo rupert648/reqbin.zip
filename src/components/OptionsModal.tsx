@@ -19,6 +19,7 @@ export const OptionsModal = ({
           <button
             onClick={() => setShowOptionsModal(false)}
             className="ml-auto mr-0"
+            data-testid="close-options-modal"
           >
             <CrossIcon
               className=" cursor-pointer rounded-full border-gray-400 hover:bg-gray-200"

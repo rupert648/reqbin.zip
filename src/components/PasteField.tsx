@@ -20,6 +20,7 @@ export const PasteField = ({ isEditable, placeholder }: PasteFieldProps) => {
       className="mt-4 h-[70vh] w-full cursor-text resize-none rounded-lg border border-gray-300 p-4 focus:outline-none focus:ring-2 focus:ring-orange-400 md:m-4 md:h-[80vh]"
       disabled={!isEditable}
       title={isEditable ? "" : "Not editable"}
+      data-testid="paste-contents-textarea"
     />
   );
 };

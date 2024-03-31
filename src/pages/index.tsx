@@ -15,7 +15,7 @@ import { calculateTimeoutDate } from "~/utils/timeout";
 
 const initialFormValues = {
   pasteContents: "",
-  isEditable: true,
+  isEditable: false,
   copyLinkToClipboard: true,
   hasTimeout: false,
   timeout: timeoutValues[0]?.value ?? 60,
@@ -118,6 +118,7 @@ const Home: NextPage = () => {
                   onClick={() => setShowOptionsModal(true)}
                   type="button"
                   disabled={isLoading}
+                  data-testid="options-button"
                 >
                   <h3 className="md:text-1xl text-xs font-bold">
                     Options{" "}
@@ -131,6 +132,7 @@ const Home: NextPage = () => {
                   type="submit"
                   id="submitPasteBin"
                   disabled={isLoading}
+                  data-testid="create-paste-bin-button"
                 >
                   <h3 className="md:text-1xl text-xs font-bold">
                     Create your Paste bin{" "}
@@ -155,7 +157,7 @@ const Home: NextPage = () => {
         </Formik>
       </main>
     </>
-);
+  );
 };
 
 export default Home;

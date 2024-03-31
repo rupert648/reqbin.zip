@@ -12,12 +12,18 @@ export const TopIcons = ({ pasteObjectId, timeoutDate }: TopIconsProps) => {
       <MobileTitle />
       <div className="flex">
         {pasteObjectId ? (
-          <p className="mx-5 -mb-2 hidden border-b-2 border-orange-400 text-xs font-extralight tracking-widest md:block">
+          <p
+            className="mx-5 -mb-2 hidden border-b-2 border-orange-400 text-xs font-extralight tracking-widest md:block"
+            data-testid="paste-object-id-string"
+          >
             {pasteObjectId}
           </p>
         ) : null}
         {timeoutDate ? (
-          <p className="mx-5 -mb-2 hidden border-b-2 border-orange-400 text-xs font-extralight tracking-widest md:block">
+          <p
+            data-testid="timer-timeout-string"
+            className="mx-5 -mb-2 hidden border-b-2 border-orange-400 text-xs font-extralight tracking-widest md:block"
+          >
             <TimeLeft timeoutDate={timeoutDate} />
           </p>
         ) : null}

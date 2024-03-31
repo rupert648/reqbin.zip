@@ -105,6 +105,7 @@ export default function CurlRequestPage() {
                 }
                 id="savePasteContents"
                 type="submit"
+                data-testid="save-paste-contents-button"
               >
                 <h3 className="md:text-1xl text-xs font-bold">
                   Save{" "}
