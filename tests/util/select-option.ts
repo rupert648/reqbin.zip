@@ -1,4 +1,5 @@
 import type { Page } from "playwright";
+import { selectors } from "tests/selectors";
 import type { TimeoutValuesLabels } from "~/constants/timeout-values";
 
 type SelectOptionArgs =
@@ -11,7 +12,7 @@ type SelectOptionArgs =
   };
 
 export const selectOption = async (page: Page, option: SelectOptionArgs) => {
-  const optionsSelector = page.getByRole("button", { name: "Options (⌘K)" });
+  const optionsSelector = selectors.optionsButton(page);
   await optionsSelector.click();
   switch (option.selection) {
     case "editable":
@@ -21,6 +22,8 @@ export const selectOption = async (page: Page, option: SelectOptionArgs) => {
     case "hasTimeout":
       const hasTimeoutOption = page.getByLabel("(3)Has Timeout?");
       await hasTimeoutOption.check();
+      const timeoutDropdown = selectors.optionsTimeoutDropdown(page);
+      await timeoutDropdown.selectOption({ label: option.timeoutDuration });
       break;
     case "copyLinkToClipboard":
       const copyLinkToClipboardOption = page.getByLabel(
