@@ -48,3 +48,7 @@ yarn-error.log*
 # playwright
 /test-results/
 /tests-examples/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
