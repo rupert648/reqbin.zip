@@ -44,3 +44,7 @@ yarn-error.log*
 *.tsbuildinfo
 
 .wrangler/
+
+# playwright
+/test-results/
+/tests-examples/
