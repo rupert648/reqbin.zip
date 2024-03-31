@@ -53,4 +53,5 @@ export const timeoutValues = [
   },
 ] as const;
 
+export type TimeoutValuesValues = (typeof timeoutValues)[number]["value"];
 export type TimeoutValuesLabels = (typeof timeoutValues)[number]["label"];
