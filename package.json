@@ -8,8 +8,8 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "playwright": "playwright test",
-    "playwright:ui": "playwright test --ui"
+    "test:playwright": "playwright test",
+    "test:playwright:ui": "playwright test --ui"
   },
   "dependencies": {
     "@libsql/client": "^0.5.6",
