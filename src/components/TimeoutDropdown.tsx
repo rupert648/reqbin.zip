@@ -14,6 +14,7 @@ export const TimeoutDropdown = ({ hasTimeout }: TimeoutDropdownProps) => {
       className="text-blac rounded-lg border border-gray-300 bg-white p-2 hover:bg-black/5"
       name="timeout"
       as="select"
+      data-testid="timeout-dropdown"
     >
       {timeoutValues.map((timeoutValue) => (
         <option key={timeoutValue.value} value={timeoutValue.value}>

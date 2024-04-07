@@ -1,9 +1,8 @@
-export type TimeoutValue = {
-  value: number;
-  label: string;
-};
-
-export const timeoutValues: TimeoutValue[] = [
+export const timeoutValues = [
+  {
+    value: 10,
+    label: "10 seconds",
+  },
   {
     value: 60,
     label: "1 minute",
@@ -52,4 +51,7 @@ export const timeoutValues: TimeoutValue[] = [
     label: "1 month",
     value: 2630000,
   },
-];
+] as const;
+
+export type TimeoutValuesValues = (typeof timeoutValues)[number]["value"];
+export type TimeoutValuesLabels = (typeof timeoutValues)[number]["label"];
