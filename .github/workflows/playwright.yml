@@ -23,7 +23,7 @@ jobs:
         run: yarn playwright test
         # need to include these for tsc to be happy
         env:
-          CIPHER_ENV: ci
+          CIPHER_ENV: "04924459904167499052523287527579"
           TURSO_DATABASE_URL: "file:./prisma/dev.db"
           TURSO_AUTH_TOKEN: auth_token
       - uses: actions/upload-artifact@v4
